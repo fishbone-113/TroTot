@@ -1,11 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
   FlatList,
   StatusBar,
   TextInput,
@@ -13,8 +11,10 @@ import {
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+import { BottomNav } from '@/components/bottom-nav';
+import { commonStyles } from '@/styles/common';
+import { AREA_CARD_WIDTH, CARD_WIDTH, styles } from '@/styles/screens/home.styles';
+import { Colors } from '@/styles/theme';
 
 // ─── Mock Data ───────────────────────────────────────────────────────────────
 
@@ -211,11 +211,11 @@ export default function HomeScreen() {
   const [searchText, setSearchText] = useState('');
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F8FAFF" />
+    <View style={commonStyles.screen}>
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.bgScreen} />
 
       <ScrollView
-        style={styles.scrollView}
+        style={commonStyles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
@@ -231,10 +231,10 @@ export default function HomeScreen() {
 
         {/* ── Search Bar ── */}
         <View style={styles.searchRow}>
-          <View style={styles.searchBar}>
-            <Ionicons name="search-outline" size={18} color="#A0AEC0" />
+          <View style={commonStyles.searchBar}>
+            <Ionicons name="search-outline" size={18} color="#8898AA" />
             <TextInput
-              style={styles.searchInput}
+              style={[commonStyles.searchInput, { outlineStyle: 'none', outlineWidth: 0 } as any]}
               placeholder="Tìm kiếm khu vực, thành phố,..."
               placeholderTextColor="#A0AEC0"
               value={searchText}
@@ -324,339 +324,8 @@ export default function HomeScreen() {
         <View style={{ height: 32 }} />
       </ScrollView>
 
-      {/* ── Bottom Nav ── */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="home" size={22} color="#2563EB" />
-          <Text style={[styles.navLabel, { color: '#2563EB' }]}>Trang chủ</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="compass-outline" size={22} color="#A0AEC0" />
-          <Text style={styles.navLabel}>Khám phá</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => router.replace('/(tabs)/chat')}>
-          <Ionicons name="chatbubble-outline" size={22} color="#A0AEC0" />
-          <Text style={styles.navLabel}>Trò chuyện</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="heart-outline" size={22} color="#A0AEC0" />
-          <Text style={styles.navLabel}>Đã thích</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="person-outline" size={22} color="#A0AEC0" />
-          <Text style={styles.navLabel}>Thông tin</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav activeTab="home" activeTint={Colors.primaryDark} />
     </View>
   );
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-const CARD_WIDTH = SCREEN_WIDTH * 0.58;
-const AREA_CARD_WIDTH = SCREEN_WIDTH * 0.42;
-
-// ─── Styles ───────────────────────────────────────────────────────────────────
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFF',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 8,
-  },
-
-  // Header
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 52,
-    paddingBottom: 6,
-    backgroundColor: '#F8FAFF',
-  },
-  headerLabel: {
-    fontSize: 11,
-    color: '#A0AEC0',
-    marginBottom: 2,
-  },
-  locationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  locationText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#1A2E5A',
-    marginHorizontal: 2,
-  },
-
-  // Search
-  searchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    marginTop: 12,
-    marginBottom: 4,
-    gap: 10,
-  },
-  searchBar: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    height: 44,
-    gap: 8,
-    shadowColor: '#0000001A',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 13,
-    color: '#1A2E5A',
-  },
-  filterBtn: {
-    width: 44,
-    height: 44,
-    backgroundColor: '#EBF2FF',
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  // Welcome
-  welcomeText: {
-    fontSize: 13,
-    color: '#718096',
-    paddingHorizontal: 20,
-    marginTop: 14,
-    marginBottom: 4,
-  },
-
-  // Section header
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#1A2E5A',
-  },
-  sectionSubtitle: {
-    fontSize: 11,
-    color: '#A0AEC0',
-    marginTop: 2,
-  },
-  seeAll: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#2563EB',
-  },
-
-  // Horizontal list
-  horizontalList: {
-    paddingLeft: 20,
-    paddingRight: 8,
-  },
-
-  // Room card
-  roomCard: {
-    width: CARD_WIDTH,
-    marginRight: 12,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    overflow: 'hidden',
-    shadowColor: '#0000001A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    elevation: 4,
-  },
-  roomImage: {
-    width: '100%',
-    height: 130,
-  },
-  heartBtn: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 6,
-    shadowColor: '#00000020',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  ratingBadge: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    backgroundColor: '#FFFFFFEE',
-    borderRadius: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 7,
-    paddingVertical: 3,
-    gap: 3,
-  },
-  ratingText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#1A2E5A',
-  },
-  roomInfo: {
-    padding: 12,
-  },
-  roomTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#1A2E5A',
-    marginBottom: 3,
-  },
-  roomAddress: {
-    fontSize: 11,
-    color: '#718096',
-    marginBottom: 8,
-  },
-  roomMeta: {
-    flexDirection: 'row',
-    gap: 10,
-    marginBottom: 8,
-  },
-  metaItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-  },
-  metaText: {
-    fontSize: 11,
-    color: '#718096',
-  },
-  roomPrice: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: '#2563EB',
-  },
-  priceSuffix: {
-    fontSize: 11,
-    fontWeight: '400',
-    color: '#A0AEC0',
-  },
-
-  // Area card
-  areaCard: {
-    width: AREA_CARD_WIDTH,
-    height: 110,
-    marginRight: 12,
-    borderRadius: 14,
-    overflow: 'hidden',
-  },
-  areaImage: {
-    width: '100%',
-    height: '100%',
-  },
-  areaOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#00000050',
-    borderRadius: 14,
-  },
-  areaTextBox: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-  },
-  areaName: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  areaCount: {
-    fontSize: 10,
-    color: '#FFFFFFCC',
-    marginTop: 2,
-  },
-
-  // CTA Banner
-  ctaBanner: {
-    marginHorizontal: 20,
-    marginTop: 24,
-    backgroundColor: '#EDE9FE',
-    borderRadius: 18,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-    overflow: 'hidden',
-  },
-  ctaTextBox: {
-    flex: 1,
-  },
-  ctaTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: '#1A1A2E',
-    lineHeight: 22,
-    marginBottom: 6,
-  },
-  ctaSubtitle: {
-    fontSize: 11,
-    color: '#6B7280',
-    lineHeight: 16,
-    marginBottom: 14,
-  },
-  ctaButton: {
-    backgroundColor: '#2563EB',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    alignSelf: 'flex-start',
-  },
-  ctaButtonText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  ctaImageBox: {
-    width: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  // Bottom Nav
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    paddingTop: 10,
-    paddingBottom: 20,
-    paddingHorizontal: 8,
-    borderTopWidth: 1,
-    borderTopColor: '#EDF2F7',
-    shadowColor: '#00000015',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    gap: 3,
-  },
-  navLabel: {
-    fontSize: 10,
-    fontWeight: '500',
-    color: '#A0AEC0',
-  },
-});

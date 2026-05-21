@@ -1,52 +1,221 @@
-# Welcome to your Expo app 👋
+# Tro Tot App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Tro Tot App là ứng dụng tìm phòng trọ được xây bằng Expo, React Native và Expo Router. Dự án hiện có các màn chính như đăng nhập, đăng ký, trang chủ, khám phá, trò chuyện, yêu thích, hồ sơ và danh sách phòng.
 
-## Get started
+## Công Nghệ Sử Dụng
 
-1. Install dependencies
+- Expo SDK 54
+- React 19
+- React Native 0.81
+- Expo Router
+- TypeScript
+- pnpm
+
+## Cần Cài Trước
+
+Trước khi chạy dự án, máy cần có các phần mềm sau:
+
+1. Node.js
+
+   Tải và cài bản LTS tại:
+
+   https://nodejs.org
+
+   Sau khi cài xong, mở terminal và kiểm tra:
 
    ```bash
-   pnpm install
-   pnpm exec expo install react-native-maps
-
+   node -v
+   npm -v
    ```
 
-2. Start the app
+2. pnpm
+
+   Dự án này dùng `pnpm` để cài package.
 
    ```bash
-   npx expo start
+   npm install -g pnpm
    ```
 
-In the output, you'll find options to open the app in a
+   Kiểm tra lại:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   pnpm -v
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3. Expo Go trên điện thoại
 
-## Get a fresh project
+   Nếu muốn chạy app bằng điện thoại thật, cài Expo Go:
 
-When you're ready, run:
+   - Android: tìm "Expo Go" trên Google Play
+   - iPhone: tìm "Expo Go" trên App Store
+
+## Cài Đặt Dự Án
+
+Mở terminal tại thư mục chứa project, sau đó chạy:
 
 ```bash
-npm run reset-project
+pnpm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Lệnh này sẽ tải toàn bộ thư viện cần thiết dựa theo `package.json` và `pnpm-lock.yaml`.
 
-## Learn more
+Nếu đã có thư mục `node_modules` từ trước nhưng app chạy lỗi lạ, có thể xóa `node_modules` rồi chạy lại:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+pnpm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Chạy Ứng Dụng
 
-## Join the community
+Chạy server Expo:
 
-Join our community of developers creating universal apps.
+```bash
+pnpm start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Sau khi chạy, terminal sẽ hiện mã QR và các lựa chọn mở app.
+
+### Chạy Trên Điện Thoại Thật
+
+1. Đảm bảo điện thoại và máy tính dùng chung một mạng Wi-Fi.
+2. Mở app Expo Go trên điện thoại.
+3. Quét mã QR hiện trong terminal hoặc trên trang Expo.
+4. Chờ app tải xong.
+
+Nếu điện thoại không kết nối được, thử chạy:
+
+```bash
+pnpm start -- --tunnel
+```
+
+### Chạy Trên Android Emulator
+
+Cần cài Android Studio và tạo Android emulator trước.
+
+Sau đó chạy:
+
+```bash
+pnpm android
+```
+
+Hoặc khi đang ở màn hình Expo terminal, nhấn phím `a`.
+
+### Chạy Trên iOS Simulator
+
+Chỉ dùng được trên macOS có cài Xcode.
+
+```bash
+pnpm ios
+```
+
+Hoặc khi đang ở màn hình Expo terminal, nhấn phím `i`.
+
+### Chạy Trên Web
+
+```bash
+pnpm web
+```
+
+Expo sẽ mở app trên trình duyệt.
+
+## Kiểm Tra Code
+
+Chạy lint để kiểm tra lỗi code cơ bản:
+
+```bash
+pnpm lint
+```
+
+Chạy TypeScript để kiểm tra lỗi kiểu dữ liệu:
+
+```bash
+pnpm exec tsc --noEmit
+```
+
+Nên chạy hai lệnh này trước khi commit code.
+
+## Cấu Trúc Thư Mục
+
+```text
+app/                 Các màn hình và route của Expo Router
+app/(tabs)/          Các màn chính trong bottom tab
+assets/              Hình ảnh, icon, splash screen
+components/          Component dùng lại nhiều nơi
+constants/           Hằng số có sẵn của project
+hooks/               Custom hooks
+styles/              Theme, style dùng chung và style theo từng màn
+styles/screens/      Style riêng cho từng file màn hình
+scripts/             Script hỗ trợ project
+```
+
+## Quy Ước Style
+
+Để file `.tsx` gọn và dễ đọc, style được tách ra ngoài:
+
+- Style dùng chung đặt ở `styles/common.ts`
+- Màu sắc, radius, spacing đặt ở `styles/theme.ts`
+- Style riêng từng màn đặt ở `styles/screens/*.styles.ts`
+
+Ví dụ:
+
+```ts
+import { styles } from '@/styles/screens/home.styles';
+```
+
+Không nên viết `StyleSheet.create(...)` trực tiếp trong file màn hình nếu style đó dài.
+
+## Lệnh Hay Dùng
+
+```bash
+pnpm install
+pnpm start
+pnpm android
+pnpm ios
+pnpm web
+pnpm lint
+pnpm exec tsc --noEmit
+```
+
+## Xử Lý Lỗi Thường Gặp
+
+### App không cập nhật sau khi sửa code
+
+Thử restart Expo và xóa cache:
+
+```bash
+pnpm start -- --clear
+```
+
+### Điện thoại không quét được QR
+
+Kiểm tra các bước sau:
+
+- Máy tính và điện thoại đang dùng chung Wi-Fi
+- Tắt VPN nếu đang bật
+- Thử dùng tunnel:
+
+```bash
+pnpm start -- --tunnel
+```
+
+### Package bị lỗi hoặc thiếu dependency
+
+Chạy lại:
+
+```bash
+pnpm install
+```
+
+Sau đó restart Expo:
+
+```bash
+pnpm start -- --clear
+```
+
+## Ghi Chú Cho Người Mới
+
+- Không sửa trực tiếp trong `node_modules`.
+- Nếu thêm thư viện mới, dùng `pnpm add ten-thu-vien`.
+- Nếu thêm thư viện thuộc Expo, ưu tiên dùng `pnpm exec expo install ten-thu-vien`.
+- Mỗi màn hình trong `app/` tương ứng với một route.
+- Các màn trong `app/(tabs)/` là các màn chính dùng menu phía dưới.
